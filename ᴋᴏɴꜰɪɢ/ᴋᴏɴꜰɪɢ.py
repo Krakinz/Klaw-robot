@@ -9,11 +9,11 @@
 # •=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=•
 import os
 class ӄօռʟӼ(object):
-    TOKEN=5263172476:AAHY5trfcurrSSoco5vskV46bU0KUOI2Zcs
+    TOKEN="5263172476:AAHY5trfcurrSSoco5vskV46bU0KUOI2Zcs"
     JOIN_LOGGER=os.environ.get("JOIN_LOGGER", None)
     EVENT_LOGS=os.environ.get("EVENT_LOGS", None)
-    API_ID=14944169
-    API_HASH=21c1398d1d8c20000355a1921912f758
+    API_ID="14944169"
+    API_HASH="21c1398d1d8c20000355a1921912f758"
     LOAD=os.environ.get("LOAD", "").split()
     NO_LOAD=os.environ.get("NO_LOAD", "").split()
     DEL_CMDS=bool(os.environ.get("DEL_CMDS", False))
@@ -23,7 +23,7 @@ class ӄօռʟӼ(object):
     SPAMWATCH_API=os.environ.get("SPAMWATCH_API", None)
     SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DATABASE_URI", None)
     LOGGER=True
-    OWNER_ID=1398443962 
+    OWNER_ID="1398443962"
     OWNER_USERNAME="@qtell"
     SUPPORT_CHAT = "hypevoidsoul"  
     ALLOW_CHATS = True
