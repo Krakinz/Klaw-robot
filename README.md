@@ -1,10 +1,10 @@
 [![Open Source Love svg3](https://badges.frapsoft.com/os/v3/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
-# 🧻⭐️『 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗞𝗹𝗮𝘄 𝗥𝗼𝗯𝗼𝘁 』⭐️🧻
+### 🧻⭐️『 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗞𝗹𝗮𝘄 𝗥𝗼𝗯𝗼𝘁 』⭐️🧻
 <p align="centre"><img  width="40%" height="80%" img src="https://telegra.ph/file/f9a2845e68e553eff9cf2.jpg" /></p>
 <img align="centre" src="https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg" alt="Krakinz"/>
 <img align="centre" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg"/>
 
-## ❓ WΉY MΛDΣ ƬΉIS BӨƬ?
+### ❓ WΉY MΛDΣ ƬΉIS BӨƬ?
 ```sh
 —🔥••÷[  ӄʟǟա🦀ʀօɮօȶ  ]÷••🔥—
 
@@ -14,11 +14,11 @@
 ╰✨✨♢--------------------------------------------------------------------♢✨✨╮
 ```
 
-## 〽️ MΣΣƬ US ӨЯ CΉΣCK ӨƬΉΣЯ BӨƬS   
+### 〽️ MΣΣƬ US ӨЯ CΉΣCK ӨƬΉΣЯ BӨƬS   
 - [![Generic badge](https://img.shields.io/badge/𝗞𝗹𝗮𝘄_𝗥𝗼𝗯𝗼𝘁-Vïå_ßð†-red.svg)](https://t.me/HVKlawBot)
 𝙳𝚒𝚛𝚎𝚌𝚝𝚕𝚢 𝚞𝚜𝚎 𝚃𝚑𝚎 𝙱𝚘𝚝 𝚒𝚗 𝚝𝚎𝚕𝚎𝚐𝚛𝚊𝚖
 - [![Generic badge](https://img.shields.io/badge/KrakinzBot-Vïå_ßð†-Yellow.svg)](https://t.me/KrakinzBot) 𝘛𝘶𝘳𝘯 𝘰𝘯 𝘣𝘰𝘵 𝘪𝘯 𝘵𝘦𝘭𝘦𝘨𝘳𝘢𝘮 𝘢𝘯𝘥 𝘵𝘺𝘱𝘦 /us
 
 
-## 📜 LICΣПSΣ
+### 📜 LICΣПSΣ
 - 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗞𝗹𝗮𝘄 𝗥𝗼𝗯𝗼𝘁 𝘪𝘴 𝘭𝘪𝘤𝘦𝘯𝘴𝘦𝘥 𝘶𝘯𝘥𝘦𝘳 𝘵𝘩𝘦 𝘎𝘕𝘜 𝘎𝘦𝘯𝘦𝘳𝘢𝘭 𝘗𝘶𝘣𝘭𝘪𝘤 𝘓𝘪𝘤𝘦𝘯𝘴𝘦 𝘷3.0[GNU V3.0](LICENSE)
