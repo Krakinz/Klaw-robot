@@ -7,16 +7,50 @@
 #                                                 has been licensed under GNU General Public License
 #                                                 𝐂𝐨𝐩𝐲𝐫𝐢𝐠𝐡𝐭 (𝐂) 𝟐𝟎𝟐𝟏 𝗞𝗿𝗮𝗸𝗶𝗻𝘇 | 𝗞𝗿𝗮𝗸𝗶𝗻𝘇𝗟𝗮𝗯 | 𝗞𝗿𝗮𝗸𝗶𝗻𝘇𝗕𝗼𝘁
 # •=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=•
-from ӄʟǟաʀօɮօȶ import DB_URI
 from Import import *
+from ᴋʟᴀx_ʙᴀꜱᴇ import SESSION, BASE
+from ᴍᴇᴍᴏɪʀᴇ import *
+
+class PrivateNotes(BASE):
+    __tablename__ = "private_notes"
+    chat_id = Column(String(14), primary_key=True)
+    setting = Column(Boolean, default=False)
+
+    def __init__(self, chat_id, setting):
+        self.chat_id = str(chat_id)  # Ensure String
+        self.setting = str(setting)
 
 
-def start() -> scoped_session:
-    engine = create_engine(DB_URI, client_encoding="utf8")
-    BASE.metadata.bind = engine
-    BASE.metadata.create_all(engine)
-    return scoped_session(sessionmaker(bind=engine, autoflush=False))
+PrivateNotes.__table__.create(checkfirst=True)
+
+def get_private_notes(chat_id) -> bool:
+    try:
+        private_notes = SESSION.query(PrivateNotes).get(str(chat_id))
+        if private_notes:
+            return private_notes.setting
+        return False
+    finally:
+        SESSION.close()
 
 
-BASE = declarative_base()
-SESSION = start()
+def set_private_notes(chat_id, setting: bool):
+    with PRIVATE_NOTES_INSERTION_LOCK:
+        private_notes = SESSION.query(PrivateNotes).get(str(chat_id))
+        if not private_notes:
+            private_notes = PrivateNotes(str(chat_id), setting = setting)
+
+        private_notes.setting = setting
+        SESSION.add(private_notes)
+        SESSION.commit()
+
+
+def migrate_chat(old_chat_id, new_chat_id):
+    with PRIVATE_NOTES_INSERTION_LOCK:
+        chat_filters = (
+            SESSION.query(PrivateNotes)
+            .filter(PrivateNotes.chat_id == str(old_chat_id))
+            .all()
+        )
+        for filt in chat_filters:
+            filt.chat_id = str(new_chat_id)
+        SESSION.commit()
