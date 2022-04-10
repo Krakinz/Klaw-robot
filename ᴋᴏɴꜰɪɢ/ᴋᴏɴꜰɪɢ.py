@@ -23,11 +23,11 @@ class ӄօռʟӼ(object):
     SPAMWATCH_API=os.environ.get("SPAMWATCH_API", None)
     SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DATABASE_URI", None)
     LOGGER=True
-    OWNER_ID=1836310130  
-    OWNER_USERNAME="@Krakinz"
-    SUPPORT_CHAT = "HypeVoids"  
+    OWNER_ID=1398443962 
+    OWNER_USERNAME="@qtell"
+    SUPPORT_CHAT = "hypevoidsoul"  
     ALLOW_CHATS = True
-    DEV_USERS = [1836310130]
+    DEV_USERS = [1398443962]
     KLAW_LINGS = []
     WEBHOOK = False
     INFOPIC = True
