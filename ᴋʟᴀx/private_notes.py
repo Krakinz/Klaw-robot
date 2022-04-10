@@ -7,40 +7,56 @@
 #                                                 has been licensed under GNU General Public License
 #                                                 𝐂𝐨𝐩𝐲𝐫𝐢𝐠𝐡𝐭 (𝐂) 𝟐𝟎𝟐𝟏 𝗞𝗿𝗮𝗸𝗶𝗻𝘇 | 𝗞𝗿𝗮𝗸𝗶𝗻𝘇𝗟𝗮𝗯 | 𝗞𝗿𝗮𝗸𝗶𝗻𝘇𝗕𝗼𝘁
 # •=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=•
-from ӄʟǟաʀօɮօȶ import LOAD, LOGS, NO_LOAD
-
-def __list_all_modules():
-    import glob
-    from os.path import basename, dirname, isfile
-    mod_paths = glob.glob(dirname(__file__) + "/*.py")
-    all_modules = [
-        basename(f)[:-3]
-        for f in mod_paths
-        if isfile(f) and f.endswith(".py") and not f.endswith("__init__.py")
-    ]
-    if LOAD or NO_LOAD:
-        to_load = LOAD
-        if to_load:
-            if not all(
-                any(mod == module_name for module_name in all_modules)
-                for mod in to_load
-            ):
-                LOGS.error("Invalid loadorder names. Quitting.")
-                quit(1)
-
-            all_modules = sorted(set(all_modules) - set(to_load))
-            to_load = list(all_modules) + to_load
-
-        else:
-            to_load = all_modules
-
-        if NO_LOAD:
-            LOGS.info("Not loading: {}".format(NO_LOAD))
-            return [item for item in to_load if item not in NO_LOAD]
-        return to_load
-    return all_modules
+from Import import *
+from ꜱᴀʏᴏɴᴀʀᴀ import *
+import ᴋʟᴀx_ʙᴀꜱᴇ.private_notes as sql
+from ӄʟǟաʀօɮօȶ import dispatcher
+from ꜰᴜɴᴄᴘᴏᴅ.chat_status import user_admin
 
 
-ALL_MODULES = __list_all_modules()
-LOGS.info("🔥==================================================🔥")
-__all__ = ALL_MODULES + ["ALL_MODULES"]
+@user_admin
+def privatenotes(update: Update, context: CallbackContext):
+    chat = update.effective_chat
+    message = update.effective_message
+    args = context.args
+    msg = ""
+
+    if message.chat.type == "private":
+        msg = "This command is meant to use in group not in PM"
+
+    elif len(args) == 0:
+        setting = getprivatenotes(chat.id)
+        msg = f"Private notes value is *{setting}* in *{chat.title}*"
+
+    elif len(args) >= 1:
+        val = args[0].lower()
+        if val in ["off", "no", "0", "disable", "false"]:
+            setprivatenotes(chat.id, False)
+            msg = f"Private notes has been disabled in *{chat.title}*"
+        elif val in ["on", "yes", "1", "enable", "true"]:
+            setprivatenotes(chat.id, True)
+            msg = f"Private notes has been enabled in *{chat.title}*"
+        else: 
+            msg = "Sorry, wrong value"
+
+    message.reply_text(
+        text = msg,
+        parse_mode = ParseMode.MARKDOWN
+    )
+
+def setprivatenotes(chat_id, setting):
+    sql.set_private_notes(chat_id, setting)
+            
+
+def getprivatenotes(chat_id):
+    setting = sql.get_private_notes(chat_id)
+    return setting
+
+
+def __migrate__(old_chat_id, new_chat_id):
+    sql.migrate_chat(old_chat_id, new_chat_id)
+
+
+PRIVATENOTES_HANDLER = CommandHandler("privatenotes", privatenotes, run_async=True)
+
+dispatcher.add_handler(PRIVATENOTES_HANDLER)

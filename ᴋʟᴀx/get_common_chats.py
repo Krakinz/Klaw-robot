@@ -7,40 +7,52 @@
 #                                                 has been licensed under GNU General Public License
 #                                                 𝐂𝐨𝐩𝐲𝐫𝐢𝐠𝐡𝐭 (𝐂) 𝟐𝟎𝟐𝟏 𝗞𝗿𝗮𝗸𝗶𝗻𝘇 | 𝗞𝗿𝗮𝗸𝗶𝗻𝘇𝗟𝗮𝗯 | 𝗞𝗿𝗮𝗸𝗶𝗻𝘇𝗕𝗼𝘁
 # •=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=••=•
-from ӄʟǟաʀօɮօȶ import LOAD, LOGS, NO_LOAD
-
-def __list_all_modules():
-    import glob
-    from os.path import basename, dirname, isfile
-    mod_paths = glob.glob(dirname(__file__) + "/*.py")
-    all_modules = [
-        basename(f)[:-3]
-        for f in mod_paths
-        if isfile(f) and f.endswith(".py") and not f.endswith("__init__.py")
-    ]
-    if LOAD or NO_LOAD:
-        to_load = LOAD
-        if to_load:
-            if not all(
-                any(mod == module_name for module_name in all_modules)
-                for mod in to_load
-            ):
-                LOGS.error("Invalid loadorder names. Quitting.")
-                quit(1)
-
-            all_modules = sorted(set(all_modules) - set(to_load))
-            to_load = list(all_modules) + to_load
-
-        else:
-            to_load = all_modules
-
-        if NO_LOAD:
-            LOGS.info("Not loading: {}".format(NO_LOAD))
-            return [item for item in to_load if item not in NO_LOAD]
-        return to_load
-    return all_modules
+from Import import *
+from ӄʟǟաʀօɮօȶ import OWNER_ID, dispatcher
+from ꜰᴜɴᴄᴘᴏᴅ.extraction import extract_user
+from ꜰᴜɴᴄᴘᴏᴅ.chat_status import dev_plus
+from ᴋʟᴀx_ʙᴀꜱᴇ.users_sql import get_user_com_chats
 
 
-ALL_MODULES = __list_all_modules()
-LOGS.info("🔥==================================================🔥")
-__all__ = ALL_MODULES + ["ALL_MODULES"]
+
+@dev_plus
+def get_user_common_chats(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    msg = update.effective_message
+    user = extract_user(msg, args)
+    if not user:
+        msg.reply_text("I share no common chats with the void.")
+        return
+    common_list = get_user_com_chats(user)
+    if not common_list:
+        msg.reply_text("No common chats with this user!")
+        return
+    name = bot.get_chat(user).first_name
+    text = f"<b>Common chats with {name}</b>\n"
+    for chat in common_list:
+        try:
+            chat_name = bot.get_chat(chat).title
+            sleep(0.3)
+            text += f"• <code>{chat_name}</code>\n"
+        except BadRequest:
+            pass
+        except Unauthorized:
+            pass
+        except RetryAfter as e:
+            sleep(e.retry_after)
+
+    if len(text) < 4096:
+        msg.reply_text(text, parse_mode="HTML")
+    else:
+        with open("common_chats.txt", "w") as f:
+            f.write(text)
+        with open("common_chats.txt", "rb") as f:
+            msg.reply_document(f)
+        os.remove("common_chats.txt")
+
+
+COMMON_CHATS_HANDLER = CommandHandler(
+    "getchats", get_user_common_chats, run_async=True
+)
+
+dispatcher.add_handler(COMMON_CHATS_HANDLER)
